@@ -20,12 +20,19 @@ public class WarehouseManager {
                     System.out.print("Enter Item Name: ");
                     String name = sc.nextLine();
                     System.out.print("Enter Order ID: ");
-                    int id = sc.nextInt();
-                    System.out.print("Enter Price: ");
-                    double Price = sc.nextDouble();
-                    Order o = new Order(name, id, Price);
-                    oq.enqueue(o);
-                    System.out.println("Order #" + o.getOrderID() + " has been added to the Queue ");
+                    if (sc.hasNextInt()) {
+                        int id = sc.nextInt();
+                        System.out.print("Enter Price: ");
+                        if (sc.hasNextDouble()) {
+                            double price = sc.nextDouble();
+                            oq.enqueue(new Order(name, id, price));
+                            System.out.println("Order #" + id + " added to queue.");
+                        }
+                        sc.nextLine(); // Clear buffer after numbers
+                    } else {
+                        System.out.println("Invalid input. ID must be an integer.");
+                        sc.nextLine(); // Clear trash
+                    }
                     break;
                 case "P":
                     System.out.println("Loading...");
@@ -33,7 +40,7 @@ public class WarehouseManager {
                     try {
                         temp = oq.dequeue();
                         sp.push(temp);
-                        System.out.println("Order #" + temp.getOrderID() + "has been moved to the Shipping Stack");
+                        System.out.println("Order #" + temp.getOrderID() + " has been moved to the Shipping Stack");
                         break;
                     } catch (EmptyQueueException e) {
                         System.out.println("There is no order to process");
@@ -50,7 +57,6 @@ public class WarehouseManager {
                         nodePtr = nodePtr.getLink();
                         i++;
                     }
-                    System.out.println();
                     System.out.println("Current Stack (Top to Bottom)");
                     sp.printStack();
                     break;
@@ -58,11 +64,11 @@ public class WarehouseManager {
                     System.out.println("Dispatching Pallet...");
                     int k = 1;
                     if (sp.isEmpty()){
-                        System.out.println("Pallet is empty");
+                        System.out.println("There is no order to dispatch");
                         break;
                     }
                     while (!sp.isEmpty()){
-                        System.out.println(k + "Dispatching Order " + sp.pop());
+                        System.out.println(k + ". Dispatching " + sp.pop());
                         k++;
                     }
                     System.out.println("All items dispatched. Pallet is now empty");

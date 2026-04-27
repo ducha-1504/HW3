@@ -43,6 +43,6 @@ public class Order {
         this.link = link;
     }
     public String toString(){
-        return "Order # " + this.orderID + ": " + this.itemName + " ($" + this.price + " )";
+        return "Order # " + this.orderID + ": " + this.itemName + " ($" + this.price + ")";
     }
 }

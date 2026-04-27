@@ -13,8 +13,8 @@ public class ShippingStack {
     public void ensureCapacity(int minCapacity) {
         Order[] temp;
         if (stack.length < minCapacity) {
-            temp = new Order[Capacity];
-            System.arraycopy(stack, 0, temp, 0, Capacity);
+            temp = new Order[minCapacity];
+            System.arraycopy(stack, 0, temp, 0, stack.length);
             stack = temp;
         }
     }
@@ -44,6 +44,10 @@ public class ShippingStack {
     }
     public void printStack(){
         int m = 1;
+        if (isEmpty()){
+            System.out.println("Stack is empty");
+            return;
+        }
         for(int i = top; i >= 0; i--){
             System.out.println(m + ". " + stack[i].toString());
             m++;
